@@ -4,11 +4,11 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 
-var db = null;
 var example = angular.module('starter', ['ionic', 'ngCordova'])
 
-.run(function($ionicPlatform, $cordovaSQLite) {
+.run(function($rootScope, $ionicPlatform, $cordovaSQLite) {
     $ionicPlatform.ready(function() {
+        //$rootScope.aaa = 'abc 123';
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -19,7 +19,7 @@ var example = angular.module('starter', ['ionic', 'ngCordova'])
             StatusBar.styleDefault();
         }
 
-        db = $cordovaSQLite.openDB({ name: "my.db", location: "default" });
+        var db = $rootScope.db = $cordovaSQLite.openDB({ name: "my.db", location: "default" });
 
         $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS people (id integer primary key, firstname text, lastname text)");
   });
@@ -28,8 +28,9 @@ var example = angular.module('starter', ['ionic', 'ngCordova'])
 example.controller("ExampleController", function($scope, $cordovaSQLite) {
  
     $scope.insert = function(firstname, lastname) {
+//alert('check: ' + $scope.aaa);
         var query = "INSERT INTO people (firstname, lastname) VALUES (?,?)";
-        $cordovaSQLite.execute(db, query, [firstname, lastname]).then(function(res) {
+        $cordovaSQLite.execute($scope.db, query, [firstname, lastname]).then(function(res) {
             var message = "INSERT ID -> " + res.insertId;
             console.log(message);
             alert(message);
@@ -41,7 +42,7 @@ example.controller("ExampleController", function($scope, $cordovaSQLite) {
  
     $scope.select = function(lastname) {
         var query = "SELECT firstname, lastname FROM people WHERE lastname = ?";
-        $cordovaSQLite.execute(db, query, [lastname]).then(function(res) {
+        $cordovaSQLite.execute($scope.db, query, [lastname]).then(function(res) {
             if(res.rows.length > 0) {
                 var message = "SELECTED -> " + res.rows.item(0).firstname + " " + res.rows.item(0).lastname;
                 alert(message);
