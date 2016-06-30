@@ -152,6 +152,10 @@ Duvidas podem enviar email para contato@charlesmendes.com
 Esse código foi elaborado com base no tutorial do Nic Raboy (This code was based on the tutorial by Nic Raboy):
 https://blog.nraboy.com/2014/11/use-sqlite-instead-local-storage-ionic-framework/
 
+## Support
+
+Support for use of cordova-sqlite-storage and related versions is no longer offered for free. For support enquiries please contact: <sales@litehelpers.net>
+
 ## License
 
 MIT, see LICENSE.
